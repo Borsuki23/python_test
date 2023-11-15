@@ -1,5 +1,3 @@
-print("Hello Wold bruh")
-
-
+print("Hello World")
 
 
