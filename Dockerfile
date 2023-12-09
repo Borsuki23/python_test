@@ -1,13 +1,9 @@
 FROM python:3.11.6-slim
 
+COPY iss_tracker.py /app/iss_tracker.py
+
+RUN pip install requests
+
 WORKDIR /app
 
-ENV PYTHONUNBUFFERED 1
-ENV PYTHONDONTWRITEBYTECODE 1
-
-COPY . .
-
-RUN echo "Hello from installing"
-RUN apt-get upgrade
-
-CMD ["python", "main.py"]
+CMD ["python", "iss_tracker.py"]
