@@ -69,20 +69,48 @@ async def delete_user(user_id: int):
         await session.commit()
         print(query)
 
+async def create_order(
+        quantity: int,
+        price: float,
+        customer: int,
+) -> tuple:
+    # await asyncio.sleep(2)
+    # print(9999999999)
+    async with async_session_maker() as session:
+        query = insert(Order).values(
+            customer=customer,
+            quantity=quantity,
+            price=price,
+        ).returning(Order.id, Order.quantity, Order.customer)
+        print(query)
+        data = await session.execute(query)
+        await session.commit()
+        print(tuple(data))
+        return tuple(data)[0]
+
+
+async def update_order(order_id: int, values: dict):
+    if not values:
+        return
+    async with async_session_maker() as session:
+        query = update(User).where(User.id == order_id).values(**values)
+        result = await session.execute(query)
+        await session.commit()
+        # print(tuple(result))
+        print(query)
 
 async def main():
     await asyncio.gather(
-        # create_user(
-        #     name='Timur',
-        #     login='login22266',
-        #     password='1234',
-        #     age=25,
-        #     nickname='nickname',
-        # ),
+        create_order(
+            customer= 2,
+            quantity=23,
+            price=34
+            ,
+        ),
         # fetch_users(skip=1)
         # get_user_by_id(2),
         # update_user(1, {'name': 'Alex', 'age': 65})
-        delete_user(1)
+        #delete_user(1)
     )
 
 

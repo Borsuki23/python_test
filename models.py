@@ -31,6 +31,15 @@ class User(BaseInfoMixin, Base):
     def __repr__(self) -> str:
         return f'User {self.name} -> #{self.id}'
 
+class Adrese(BaseInfoMixin,Base):
+    __tablename__ = 'adresses'
+
+    country: Mapped[str] = mapped_column(String(5))
+    district: Mapped[str]
+    street: Mapped[str] = mapped_column(default='Івана Франка')
+
+
+
 
 class Order(BaseInfoMixin, Base):
     __tablename__ = 'orders'
