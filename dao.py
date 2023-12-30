@@ -93,19 +93,24 @@ async def update_order(order_id: int, values: dict):
     if not values:
         return
     async with async_session_maker() as session:
-        query = update(User).where(User.id == order_id).values(**values)
+        query = update(Order).where(Order.id == order_id).values(**values)
         result = await session.execute(query)
         await session.commit()
         # print(tuple(result))
         print(query)
 
+async def delete_order(order_id: int):
+    async with async_session_maker() as session:
+        query = delete(Order).where(Order.id == order_id)
+        await session.execute(query)
+        await session.commit()
+        print(query)
+
+
 async def main():
     await asyncio.gather(
-        create_order(
-            customer= 2,
-            quantity=23,
-            price=34
-            ,
+        delete_order(
+            order_id=1,
         ),
         # fetch_users(skip=1)
         # get_user_by_id(2),
