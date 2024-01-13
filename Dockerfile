@@ -1,9 +1,9 @@
-FROM python:3.11.6-slim
-
-COPY iss_tracker.py /app/iss_tracker.py
-
-RUN pip install requests
+FROM python:3.10.3-slim
 
 WORKDIR /app
 
-CMD ["python", "iss_tracker.py"]
+COPY . .
+
+
+CMD ["python", "docker_function.py", "10"]
+

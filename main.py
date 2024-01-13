@@ -1,11 +1,19 @@
-from fastapi import FastAPI
+import sys
+import time
 
-app = FastAPI()
+def main():
+    if len(sys.argv) != 2:
+        print("Потрібно передати одне ціле число як аргумент командного рядка.")
+        return
+    try:
+        seconds = int(sys.argv[1])
+    except ValueError:
+        print("Аргумент має бути цілим числом.")
+        return
 
-@app.get('/')
-def index():
-    return"hi"
+    for i in range(1, seconds + 1):
+        print(f"Пройшло {i} секунд(а).")
+        time.sleep(1)
 
-@app.get('/api')
-def api_root():
-    return 'api'
+if __name__ == "__main__":
+    main()
