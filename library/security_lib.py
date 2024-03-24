@@ -49,6 +49,7 @@ class AuthHandler:
 
     @classmethod
     async def generate_token(cls, payload: dict, expiry: timedelta) -> str:
+        print(cls.algorithm,89898989899989898989898989898989898)
         now = datetime.utcnow()
         time_payload = {'exp': now + expiry, 'iat': now}
         payload.update(time_payload)

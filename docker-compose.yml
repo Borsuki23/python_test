@@ -1,32 +1,22 @@
-version: '3.8'
+version: "3.9"
 
 services:
-
-  pgadmin:
-    image: dpage/pgadmin4
+  db:
+    image: postgres:15-alpine
     restart: always
     environment:
-      PGADMIN_DEFAULT_EMAIL: some_mail@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: root
+      POSTGRES_PASSWORD: postgres
     ports:
-      - "15000:80"
+      - "5433:5432"
 
-  database:
-    image: postgres:15
-    restart: always
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: test_db
-    ports:
-      - "55555:5432"
 
-  database2:
-    image: postgres:15
-    restart: always
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: test_db
+  api:
+    build: .
+    env_file: .env
+    command: bash -c "alembic upgrade head &&  uvicorn main:app --port=8000 --host=0.0.0.0 --reload"
+    volumes:
+      - .:/app
     ports:
-      - "55556:5432"
+      - "9000:8000"
+    depends_on:
+      - db

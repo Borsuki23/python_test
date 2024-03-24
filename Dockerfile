@@ -1,9 +1,18 @@
-FROM python:3.10.3-slim
+FROM python:3.11.6-slim
 
 WORKDIR /app
 
-COPY . .
+ENV PYTHONFAULTHANDLER=1 \
+    PYTHONHASHSEED=random \
+    PYTHONUNBUFFERED=1
 
+RUN pip install --upgrade pip
+RUN pip install poetry
 
-CMD ["python", "docker_function.py", "10"]
+COPY . /app
+
+RUN poetry config virtualenvs.create false \
+    && poetry install --no-interaction --no-ansi
+
+EXPOSE 8000
 
